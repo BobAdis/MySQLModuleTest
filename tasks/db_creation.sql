@@ -46,6 +46,20 @@ Kritériumok az adatbázissal kapcsolatban:
 
 */
 
+CREATE TABLE `modul`.`user_data` (`id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(100) NOT NULL ,
+`e-mail` VARCHAR(100) NOT NULL , `password` VARCHAR(100) NOT NULL , `activity` BOOLEAN NOT NULL ,
+`registration_date` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+CREATE TABLE `modul`.`message` (`id` INT NOT NULL AUTO_INCREMENT , `sender_id` INT NOT NULL ,
+`getter_id` INT NOT NULL , `text` TEXT NOT NULL , `send_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`answered_letter_id` INT NULL DEFAULT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+ALTER TABLE message ADD FOREIGN KEY (sender_id) REFERENCES user_data(id);
+
+ALTER TABLE message ADD FOREIGN KEY (getter_id) REFERENCES user_data(id);
+
+ALTER TABLE message ADD FOREIGN KEY (answered_letter_id) REFERENCES message(id);
+
 
 -- ---------------------------------------------------------------------------------------------------------------------
 
@@ -56,3 +70,9 @@ Adj hozzá adatokat mindegyik táblához!
 (Az adatoknak nem kell valósnak lenniük. Egy felhasználói email-cím lehet például: 'valami@valami.va')
 
 */
+
+INSERT INTO `user_data`(`name`, `e-mail`, `password`, `activity`) VALUES ('Kis Pista', 'valami@valami.va', 1234, 1)
+
+INSERT INTO `message`(`sender_id`, `getter_id`, `text`) VALUES (1, 1, 'Hello')
+
+INSERT INTO `message`(`sender_id`, `getter_id`, `text`, `answered_letter_id`) VALUES (1, 1, 'Szia',1 )
