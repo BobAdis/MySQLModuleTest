@@ -94,7 +94,9 @@ WHERE `HeadOfState` LIKE ('%Ahmad%') OR `HeadOfState` LIKE ('%Ahmed%') OR `HeadO
         kontinensek: Oceania (7 db), Europe (2), South America (1)
 */
 
-
+SELECT *
+FROM `country`
+WHERE `LifeExpectancy` IS NULL AND `Population` != 0;
 
 /*
 6. feladat (2 pont)
@@ -106,6 +108,9 @@ WHERE `HeadOfState` LIKE ('%Ahmad%') OR `HeadOfState` LIKE ('%Ahmed%') OR `HeadO
         63 rekord
 */
 
+SELECT `Code`, `Name`, `GNP` ,`GNPOld`
+FROM `country`
+WHERE `GNPOld` > `GNP`;
 
 /*
 7. feladat (4 pont)
@@ -117,6 +122,11 @@ WHERE `HeadOfState` LIKE ('%Ahmad%') OR `HeadOfState` LIKE ('%Ahmed%') OR `HeadO
         29 rekord
 */
 
+SELECT `Language`
+FROM `countrylanguage`
+WHERE `Language` LIKE '%ian'
+GROUP BY `Language`
+ORDER BY `Language`;
 
 /*
 8. feladat (4 pont)
@@ -130,6 +140,10 @@ WHERE `HeadOfState` LIKE ('%Ahmad%') OR `HeadOfState` LIKE ('%Ahmed%') OR `HeadO
         Eastern Europe 10
 */
 
+SELECT `Region`, COUNT(*) AS 'Országok száma'
+FROM `country`
+WHERE `Region` LIKE '%Europe%'
+GROUP BY `Region`;
 
 /*
 9. feladat (5 pont)
@@ -144,6 +158,11 @@ WHERE `HeadOfState` LIKE ('%Ahmad%') OR `HeadOfState` LIKE ('%Ahmed%') OR `HeadO
         utolsó országkód: ZWE
 */
 
+SELECT `country`.`Code`, `country`.`Name`, `city`.`Name`
+FROM `country`
+LEFT JOIN `city`
+ON `country`.`Capital` = `city`.`ID`
+ORDER BY `country`.`Name`;
 
 /*
 10. feladat (3 pont)
@@ -154,6 +173,7 @@ WHERE `HeadOfState` LIKE ('%Ahmad%') OR `HeadOfState` LIKE ('%Ahmed%') OR `HeadO
         10 rekord
         a városok ID-ja: 61, 62, 1791, 2316, 2317, 2728, 2805, 2806, 3333, 3538
 */
+
 
 
 /*
