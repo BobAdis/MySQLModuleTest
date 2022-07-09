@@ -174,7 +174,9 @@ ORDER BY `country`.`Name`;
         a városok ID-ja: 61, 62, 1791, 2316, 2317, 2728, 2805, 2806, 3333, 3538
 */
 
-
+SELECT *
+FROM `city`
+WHERE CHAR_LENGTH (`Population`) = 3;
 
 /*
 11. feladat (5 pont)
@@ -188,6 +190,11 @@ ORDER BY `country`.`Name`;
         országkódok, amelyek szerepelnek a listában: DNK, FIN, FRO, ISL, NOR, SJM, SWE
 */
 
+SELECT `city`.*
+FROM `city`
+INNER JOIN `country`
+ON `city`.`CountryCode` = `country`.`Code`
+WHERE `country`.`Region` IN ('Nordic Countries');
 
 /*
 12. feladat (5 pont)
@@ -203,6 +210,11 @@ ORDER BY `country`.`Name`;
         legnagyobb: Caribbean (11)
 */
 
+SELECT `Region`, COUNT(*)
+FROM `country`
+WHERE `IndepYear` < 1500 OR `IndepYear` IS NULL
+GROUP BY `Region`
+ORDER BY COUNT(*) DESC;
 
 /*
 13. feladat (6 pont)
@@ -214,6 +226,11 @@ ORDER BY `country`.`Name`;
         országkódok: ABW, ANT, BHR, BRN, COK, DNK, ISL, JPN, KWT, MAC, MCO, MDV, MYS, NOR, PRI, TTO
 */
 
+SELECT `country`.*
+FROM `country`
+INNER JOIN `countrylanguage`
+ON `country`.`Code` = `countrylanguage`.`CountryCode`
+WHERE `countrylanguage`.`Language` IN ('English') AND `countrylanguage`.`IsOfficial` IN ('F');
 
 /*
 14. feladat (6 pont)
@@ -225,6 +242,11 @@ ORDER BY `country`.`Name`;
         országkódok: ATA, ATF, BVT, HMD, IOT, SGS, UMI
 */
 
+SELECT `country`.*
+FROM `country`
+LEFT JOIN `city`
+ON `country`.`Code` = `city`.`CountryCode`
+WHERE `city`.`Name` IS NULL;
 
 /*
 15. feladat (6 pont)
@@ -236,6 +258,11 @@ ORDER BY `country`.`Name`;
         65 rekord
 */
 
+SELECT `country`.`Name`, `country`.`Continent`, `country`.`Region`, `countrylanguage`.`Language`, `countrylanguage`.`Percentage`
+FROM `country`
+INNER JOIN `countrylanguage`
+ON `country`.`Code` = `countrylanguage`.`CountryCode`
+WHERE `countrylanguage`.`Percentage` = 0.0;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 
