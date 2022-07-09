@@ -194,7 +194,8 @@ SELECT `city`.*
 FROM `city`
 INNER JOIN `country`
 ON `city`.`CountryCode` = `country`.`Code`
-WHERE `country`.`Region` IN ('Nordic Countries');
+WHERE `country`.`Region` IN ('Nordic Countries')
+ORDER BY `city`.`CountryCode`, `city`.`Population` DESC;
 
 /*
 12. feladat (5 pont)
@@ -280,6 +281,9 @@ bónusz 1. (4 pont)
         88 rekord
 */
 
+SELECT `Code`, `Code2`, `Name`
+FROM `country`
+WHERE LEFT(`Code`, 2) != `Code2`;
 
 /*
 bónusz 2. (4 pont)
@@ -293,6 +297,10 @@ bónusz 2. (4 pont)
         363 rekord
 */
 
+SELECT `city`.*
+FROM `city`
+INNER JOIN (SELECT * FROM country WHERE IndepYear = (SELECT MIN(IndepYear) FROM country)) AS `min_indep`
+ON `city`.`CountryCode` = `min_indep`.`Code`;
 
 /*
 bónusz 3. (4 pont)
@@ -309,6 +317,12 @@ bónusz 3. (4 pont)
             AIA 0.0
 */
 
+SELECT `country`.`Code`,MAX(`countrylanguage`.`Percentage`) AS 'Legnagyobb százalék'
+FROM `country`
+LEFT JOIN `countrylanguage`
+ON `country`.`Code` = `countrylanguage`.`CountryCode`
+GROUP BY `country`.`Code`
+HAVING COUNT(`countrylanguage`.`Percentage`);
 
 /*
 bónusz 4. (6 pont)
@@ -326,6 +340,16 @@ bónusz 4. (6 pont)
             AIA, English, 0.0
 */
 
+SELECT `countrylanguage`.`CountryCode`, `countrylanguage`.`Language`, `countrylanguage`.`Percentage`
+FROM `countrylanguage`
+INNER JOIN (SELECT `country`.`Code`,MAX(`countrylanguage`.`Percentage`) AS 'Legnagyobb százalék'
+FROM `country`
+LEFT JOIN `countrylanguage`
+ON `country`.`Code` = `countrylanguage`.`CountryCode`
+GROUP BY `country`.`Code`
+HAVING COUNT(`countrylanguage`.`Percentage`)) AS `max_percents`
+ON `countrylanguage`.`CountryCode` = `max_percents`.`Code`
+WHERE `countrylanguage`.`Percentage` = `max_percents`.`Legnagyobb százalék`;
 
 /*
 bónusz 5. (6 pont)
@@ -342,3 +366,9 @@ bónusz 5. (6 pont)
             AIA, hivatalos: 1, nem hivatalos: 0
 */
 
+SELECT *
+FROM `country`
+LEFT JOIN `countrylanguage`
+ON `country`.`Code` = `countrylanguage`.`CountryCode`
+GROUP BY `country`.`Code`
+HAVING `countrylanguage`.`IsOfficial` = 'T';
