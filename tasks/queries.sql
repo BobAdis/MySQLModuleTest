@@ -366,9 +366,8 @@ bónusz 5. (6 pont)
             AIA, hivatalos: 1, nem hivatalos: 0
 */
 
-SELECT *
+SELECT `country`.`Code`, COUNT(`countrylanguage`.`Language` LIKE 'T') AS 'hivatalos', COUNT(`countrylanguage`.`Language` LIKE 'F') AS 'nem hivatalos'
 FROM `country`
 LEFT JOIN `countrylanguage`
 ON `country`.`Code` = `countrylanguage`.`CountryCode`
-GROUP BY `country`.`Code`
-HAVING `countrylanguage`.`IsOfficial` = 'T';
+GROUP BY `country`.`Code`;
