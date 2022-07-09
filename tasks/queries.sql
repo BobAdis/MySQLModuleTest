@@ -34,6 +34,8 @@ Jó munkát!
         -1523
 */
 
+SELECT MIN(`IndepYear`) AS 'Legrégebben függetlenedett ország'
+FROM `country`;
 
 /*
 2. feladat (4 pont)
@@ -46,6 +48,10 @@ Jó munkát!
         CHN Code-ú ország (China)
 */
 
+SELECT *
+FROM `country`
+INNER JOIN (SELECT MIN(`IndepYear`) AS 'Legrégebben függetlenedett ország'FROM `country`) AS `evszam`
+ON `country`.`IndepYear` = `evszam`.`Legrégebben függetlenedett ország`;
 
 /*
 3. feladat (2 pont)
@@ -58,6 +64,9 @@ Jó munkát!
         ID szerint növekvő sorrendben az utolsó 3 darab: 4076, 4078, 4079
 */
 
+SELECT *
+FROM `city`
+WHERE `Name` =`District`;
 
 /*
 4. feladat (3 pont)
@@ -70,6 +79,9 @@ Jó munkát!
         országnevek: Bangladesh, Bahrain, Kuwait, Mauritania, Qatar, Sudan, Sierra Leone
 */
 
+SELECT `Name`, `HeadOfState`
+FROM `country`
+WHERE `HeadOfState` LIKE ('%Ahmad%') OR `HeadOfState` LIKE ('%Ahmed%') OR `HeadOfState` LIKE ('%Hamad%');
 
 /*
 5. feladat (3 pont)
@@ -81,6 +93,7 @@ Jó munkát!
         10 rekord
         kontinensek: Oceania (7 db), Europe (2), South America (1)
 */
+
 
 
 /*
